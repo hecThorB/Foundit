@@ -397,7 +397,7 @@
 
             model.$inject = ["$baseService", "$foundIt"];
 
-            function model($baseService, $sabio) {
+            function model($baseService, $foundIt) {
                 var serviceObject = {};
                 serviceObject.budgetId = null;
 
@@ -695,7 +695,7 @@
 
             angular.module(APPNAME).factory("model", model);
 
-            model.$inject = ["$baseService", "$sabio"];
+            model.$inject = ["$baseService", "$foundIt"];
 
             function model($baseService, $foundIt) {
                 var serviceObject = {};
