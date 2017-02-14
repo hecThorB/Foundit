@@ -1,6 +1,6 @@
-﻿sabio.services.addresses = sabio.services.addresses || {};
+﻿foundIt.services.addresses = foundIt.services.addresses || {};
 
-sabio.services.addresses.create = function (data, onSuccess, onError) {
+foundIt.services.addresses.create = function (data, onSuccess, onError) {
     var url ="/api/addresses/";
 
     var settings = {
@@ -15,7 +15,7 @@ sabio.services.addresses.create = function (data, onSuccess, onError) {
     $.ajax(url, settings);
 };
 
-sabio.services.addresses.update = function (data, onSuccess, onError) {
+foundIt.services.addresses.update = function (data, onSuccess, onError) {
 
     var url ="/api/addresses/";
     var settings = {
@@ -30,7 +30,7 @@ sabio.services.addresses.update = function (data, onSuccess, onError) {
     $.ajax(url, settings);
 };
 
-sabio.services.addresses.getAll = function (onAjaxSuccess, onAjaxError) {
+foundIt.services.addresses.getAll = function (onAjaxSuccess, onAjaxError) {
     var url = "/api/addresses/";
     var settings = {
         cache: false
@@ -43,7 +43,7 @@ sabio.services.addresses.getAll = function (onAjaxSuccess, onAjaxError) {
     $.ajax(url, settings);
 };
 
-sabio.services.addresses.getById = function (id, onSuccess, onError) {
+foundIt.services.addresses.getById = function (id, onSuccess, onError) {
     var url = "/api/addresses/" + id;
     var settings = {
         cache: false
@@ -56,7 +56,7 @@ sabio.services.addresses.getById = function (id, onSuccess, onError) {
     $.ajax(url, settings);
 };
 
-sabio.services.addresses.delete = function (id, onSuccess, onError) {
+foundIt.services.addresses.delete = function (id, onSuccess, onError) {
     var url = "/api/addresses/" + id;
     var settings = {
         cache: false
@@ -69,7 +69,7 @@ sabio.services.addresses.delete = function (id, onSuccess, onError) {
     $.ajax(url, settings);
 };
 
-sabio.services.addresses.getByUserId = function (onAjaxSuccess, onAjaxError) {
+foundIt.services.addresses.getByUserId = function (onAjaxSuccess, onAjaxError) {
     var url = "/api/addresses/user";
     var settings = {
         cache: false
@@ -87,9 +87,9 @@ sabio.services.addresses.getByUserId = function (onAjaxSuccess, onAjaxError) {
     if (angular) {
         angular.module(APPNAME).factory("addressesService", addressesService);
 
-        addressesService.$inject = ["$baseService", "$sabio"];
-        function addressesService($baseService, $sabio) {
-            var serviceObject = sabio.services.addresses;
+        addressesService.$inject = ["$baseService", "$foundIt"];
+        function addressesService($baseService, $foundIt) {
+            var serviceObject = foundIt.services.addresses;
             var service = $baseService.merge(true, {}, serviceObject, $baseService);
             return service;
         }
