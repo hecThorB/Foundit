@@ -1,5 +1,5 @@
-﻿@using Sabio.Web.Enums
-@using Sabio.Web.Models.ViewModels;
+﻿@using Foundit.Web.Enums
+@using Foundit.Web.Models.ViewModels;
 @model WelcomeBaseViewModel
 @{
     ViewBag.Title = "Create";
@@ -106,89 +106,89 @@
 <!-- END PAGE -->
 
 @section scripts {
-    <script src="~/Scripts/sabio/services/sabio.services.profileAccountInfo.js"></script>
+    <script src="~/Scripts/foundit/services/foundit.services.profileAccountInfo.js"></script>
     <script type="text/javascript">
-        sabio.page.genderKinds = @typeof(GenderKind).EnumToJson(1);
-        sabio.page.accountId = null;
+        foundIt.page.genderKinds = @typeof(GenderKind).EnumToJson(1);
+        foundIt.page.accountId = null;
         // ---------------------- Page Scripts --------------------------
 
         @if (Model != null) {
             if (@Model.IsWelcomeMode)
             {
                 <text>
-                    sabio.page.welcomeMode = true;
+                    foundIt.page.welcomeMode = true;
                 </text>
             }
             else
             {
                 <text>
-                    sabio.page.accountId = @Model.EditId;
+                    foundIt.page.accountId = @Model.EditId;
                 </text>
             }
         }
-        sabio.page.accountInfoData = null;
+        foundIt.page.accountInfoData = null;
 
-        sabio.page.startUp = function () {
-            $("#signInButton").on("click", sabio.page.submitProfileAccountInfo);
+        foundIt.page.startUp = function () {
+            $("#signInButton").on("click", foundIt.page.submitProfileAccountInfo);
 
-            $("#resetForm").on("click", sabio.page.resetForm);
+            $("#resetForm").on("click", foundIt.page.resetForm);
 
-            sabio.page.initializeValidation();
+            foundIt.page.initializeValidation();
 
-            sabio.page.initializeGenders();
+            foundIt.page.initializeGenders();
 
-            if(sabio.page.accountId !== null){
-                sabio.services.profileAccountInfo.getById(sabio.page.accountId,sabio.page.handlers.getAjaxSuccess,sabio.page.handlers.getAjaxError);
-                sabio.page.changeButtonsForEditPage();
+            if(foundIt.page.accountId !== null){
+                foundIt.services.profileAccountInfo.getById(foundIt.page.accountId,foundIt.page.handlers.getAjaxSuccess,foundIt.page.handlers.getAjaxError);
+                foundIt.page.changeButtonsForEditPage();
             }
         };
 
-        sabio.page.handlers.postAjaxSuccess = function (responseData) {
-            if (sabio.page.welcomeMode) {
+        foundIt.page.handlers.postAjaxSuccess = function (responseData) {
+            if (foundIt.page.welcomeMode) {
                 window.location = "basics";
             } else {
-                sabio.page.accountId = responseData.item;
+                foundIt.page.accountId = responseData.item;
                 alert("Your Profile Information has submitted!");
                 console.log("Post Success!!");
             }
         };
 
-        sabio.page.handlers.postAjaxError = function (responseData) {
+        foundIt.page.handlers.postAjaxError = function (responseData) {
             console.log(responseData);
         };
 
-        sabio.page.handlers.putAjaxSuccess = function (responseData) {
+        foundIt.page.handlers.putAjaxSuccess = function (responseData) {
             alert("Thank you for updating your Profile Information!");
             console.log("Put Success!!");
         };
 
-        sabio.page.handlers.getAjaxError = function (responseData) {
+        foundIt.page.handlers.getAjaxError = function (responseData) {
             console.log(responseData);
         };
 
-        sabio.page.handlers.getAjaxSuccess = function (responseData) {
-            sabio.page.accountInfoData = responseData.item;
-            sabio.page.populateForm(sabio.page.accountInfoData)
+        foundIt.page.handlers.getAjaxSuccess = function (responseData) {
+            foundIt.page.accountInfoData = responseData.item;
+            foundIt.page.populateForm(sabio.page.accountInfoData)
             console.log("Get Succes");
             console.log(responseData.item);
         };
 
-        sabio.page.handlers.getAjaxError = function (responseData) {
+        foundIt.page.handlers.getAjaxError = function (responseData) {
             console.log(responseData);
         };
 
-        sabio.page.initializeGenders = function (){
+        foundIt.page.initializeGenders = function (){
             $gender = $("#genderRadio");
-            for(var key in sabio.page.genderKinds){
+            for(var key in foundIt.page.genderKinds){
                 var $radioButton = $("<input class='radio-gender' type='radio' name='gender'/><span>Text</span><br />")
-                var currentGender = sabio.page.genderKinds[key];
+                var currentGender = foundIt.page.genderKinds[key];
                 $radioButton.attr("value", currentGender.value);
                 $radioButton.text(currentGender.displayName);
                 $gender.append($radioButton);
             }
         };
 
-        sabio.page.initializeValidation = function () {
+        foundIt.page.initializeValidation = function () {
             $("#profileForm").validate(
                     {
                         rules:
@@ -244,9 +244,9 @@
                     });
         };
 
-        sabio.page.submitProfileAccountInfo = function (e) {
+        foundIt.page.submitProfileAccountInfo = function (e) {
             e.preventDefault();
-            if (sabio.page.accountId == null) {
+            if (foundIt.page.accountId == null) {
                 if ($("#profileForm").valid()) {
                     var formInfo = {};
                     formInfo.firstName = $("#inputFirstName").val();
@@ -257,13 +257,13 @@
                     formInfo.dateofBirth = $("#inputBirthday").val();
                     console.log(formInfo);
                     console.log("validate function passed.");
-                    sabio.services.profileAccountInfo.insert(formInfo, sabio.page.handlers.postAjaxSuccess, sabio.page.handlers.postAjaxError);
+                    foundIt.services.profileAccountInfo.insert(formInfo, sabio.page.handlers.postAjaxSuccess, sabio.page.handlers.postAjaxError);
                 } else {
                     console.log("did not pass validate function.");
                 }
             } else {
                 var formInfo = {};
-                formInfo.Id = sabio.page.accountId;
+                formInfo.Id = foundIt.page.accountId;
                 formInfo.firstName = $("#inputFirstName").val();
                 formInfo.lastName = $("#inputLastName").val();
                 formInfo.gender = $(".radio-gender:checked").val();
@@ -271,11 +271,11 @@
                 formInfo.phoneNumber = $("#inputPhoneNumber").val();
                 formInfo.dateofBirth = $("#inputBirthday").val();
                 console.log(formInfo);
-                sabio.services.profileAccountInfo.update(sabio.page.accountId, formInfo, sabio.page.handlers.putAjaxSuccess, sabio.page.handlers.putAjaxError);
+                foundIt.services.profileAccountInfo.update(sabio.page.accountId, formInfo, sabio.page.handlers.putAjaxSuccess, sabio.page.handlers.putAjaxError);
             }
         };
 
-        sabio.page.populateForm = function(obj){
+        foundIt.page.populateForm = function(obj){
 
             $("#profileForm").find("#inputFirstName").val(obj.firstName);
             $("#profileForm").find("#inputLastName").val(obj.lastName);
@@ -297,16 +297,16 @@
 
         };
 
-        sabio.page.changeButtonsForEditPage = function(){
+        foundIt.page.changeButtonsForEditPage = function(){
             $("#signUpBtn").text("SUBMIT EDIT");
             $("#resetBtn").text("UNDO CHANGE");
         };
 
-        sabio.page.resetForm = function () {
-            if(sabio.page.accountInfoData !== null){
-                sabio.page.populateForm(sabio.page.accountInfoData);
+        foundIt.page.resetForm = function () {
+            if(foundIt.page.accountInfoData !== null){
+                foundIt.page.populateForm(sabio.page.accountInfoData);
             } else{
-                sabio.page.accountId = null;
+                foundIt.page.accountId = null;
                 $("#profileForm").get(0).reset();
                 alert("The Form has been reset. Information submitted now will create a new profile.");
             }
