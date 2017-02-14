@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
-namespace Sabio.Web.Models.Requests
+namespace FoundIt.Web.Models.Requests
 {
     public class ProfileAccountInfoUpdateRequest : ProfileAccountInfoCreateRequest
     {
