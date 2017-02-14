@@ -18,13 +18,13 @@
 
         var vm = this;
 
-        $baseController.merge(vm, $baseController); //simulate inheritance
+        $baseController.merge(vm, $baseController);
 
         vm.$scope = $scope;
 
         // Services
         vm.profileMensBudgetsService = profileMensBudgetsService;
-        vm.notify = vm.profileMensBudgetsService.getNotifier($scope); //Don't forget to do this for Ajax calls
+        vm.notify = vm.profileMensBudgetsService.getNotifier($scope); 
         vm.mensBudgetEnums = mensBudgetEnums;
         vm.consumerNotifications = consumerNotifications;
         vm.model = model;
@@ -50,7 +50,7 @@
         vm.resetButton = "New Budget";
         vm.budgetId = vm.model.budgetId;
         vm.budgetUserId = vm.model.userId;
-        vm.data = {}; // You have to define this as an object so it can be read when you getById
+        vm.data = {};
         vm.editMode = null;
         vm.editedBudget = null;
 
@@ -58,25 +58,18 @@
         vm.onBudgetFormSubmit = _onBudgetFormSubmit;
         vm.onBudgetFormReset = _onBudgetFormReset;
 
-        render(); //This Function is like Start Up
+        render();
 
         function render() {
-
             var isAdmin = false;
             vm.profileMensBudgetsService.setPrefix(isAdmin);
-
             vm.$log.debug("Angular Ready");
-
             vm.profileMensBudgetsService.get(_onBudgetGetByIdSuccess, _onBudgetGetByIdError);
-
         }
-
 
         function _onBudgetFormSubmit() {
             vm.showNewBudgetFormErrors = true;
-
             if (vm.budgetForm.$valid) {
-
                 vm.profileMensBudgetsService.upsert(vm.data, _onBudgetCreateSuccess, _onBudgetCreateError);
             } else {
                 vm.consumerNotifications.error("Did you choose all fields?", "Error");
@@ -113,14 +106,11 @@
         }
 
         function _onBudgetCreateSuccess(data) {
-
-            vm.notify(function () { // Notify is only used if we're updating the html template
+            vm.notify(function () { 
                 vm.$log.debug(data);
                 vm.budgetId = data.item;
                 vm.data.id = data.item;
                 vm.profileMensBudgetsService.$window.location.href = "/profiles#/address";
-                
-                //vm.showNewBudgetFormErrors = false;
             });
             window.location.href = '/profiles#/address';
         }
@@ -130,10 +120,8 @@
         }
 
         function _onBudgetUpdateSuccess(data) {
-
             vm.notify(function () {
                 setLastVersion(vm.data);
-
                 vm.profileMensBudgetsService.$window.location.href = "/profiles#/address";
                 vm.showNewBudgetFormErrors = false;
             });
@@ -144,9 +132,7 @@
             vm.consumerNotifications.error("Failed to retrieve budget information", "Error");
         }
 
-
         function _onBudgetGetByIdSuccess(data) {
-
             if (!data.item) {
                 return;
             }
@@ -156,9 +142,7 @@
                 vm.submitButton = "Update";
                 vm.resetButton = "Reset";
                 vm.editMode = "active";
-
                 vm.data = data.item;
-
                 vm.data.accessoriesType = data.item.accessoriesType;
                 vm.data.suitsType = data.item.suitsType;
                 vm.data.outerwearType = data.item.outerwearType;
@@ -175,7 +159,6 @@
                 vm.data.firstMensFind2Type = data.item.firstMensFind2Type;
                 vm.data.firstMensFind3Type = data.item.firstMensFind3Type;
                 setLastVersion(data.item);
-
             });
         }
 
@@ -204,7 +187,6 @@
                 vm.budgetId = null;
                 vm.showNewBudgetFormErrors = false;
                 vm.submitButton = "Submit";
-
                 resetEnums();
             });
         }
@@ -232,7 +214,7 @@
 
 
 
-// Womens Budgets Javascript
+// Womens Budgets 
 (function () {
     "use strict";
 
@@ -251,13 +233,13 @@
 
         var vm = this;
 
-        $baseController.merge(vm, $baseController); //simulate inheritance
+        $baseController.merge(vm, $baseController);
 
         vm.$scope = $scope;
 
         //Services
         vm.profileWomensBudgetsService = profileWomensBudgetsService;
-        vm.notify = vm.profileWomensBudgetsService.getNotifier($scope); //Don't forget to do this for Ajax calls
+        vm.notify = vm.profileWomensBudgetsService.getNotifier($scope);
         vm.enums = womensBudgetEnums;
         vm.consumerNotifications = consumerNotifications;
         vm.model = womensBudgetsModel;
@@ -286,7 +268,7 @@
         vm.submitButton = "Submit";
         vm.resetButton = "New Budget";
         vm.budgetId = vm.model.budgetId;
-        vm.data = {}; //have to define this as an object so it can be read when you getById
+        vm.data = {};
         vm.editMode = null;
         vm.editedBudget = null;
 
@@ -294,17 +276,12 @@
         vm.onBudgetFormSubmit = _onBudgetFormSubmit;
         vm.onBudgetFormReset = _onBudgetFormReset;
 
-        render(); //Like Startup
+        render(); 
         function render() {
             vm.$log.debug("Angular ready");
-
             var isAdmin = false;
-
             vm.profileWomensBudgetsService.setPrefix(isAdmin);
-
-
             vm.profileWomensBudgetsService.get(_onBudgetGetByIdSuccess, _onBudgetGetByIdError);
-
         }
 
         function _onBudgetFormSubmit() {
@@ -402,9 +379,7 @@
                 vm.$log.debug(data);
                 vm.submitButton = "Update";
                 vm.resetButton = "Reset";
-
                 vm.data = data.item;
-
                 vm.data.accessoriesType = data.item.accessoriesType;
                 vm.data.topsType = data.item.topsType;
                 vm.data.outerwearType = data.item.outerwearType;
