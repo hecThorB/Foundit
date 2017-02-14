@@ -4,10 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Data;
 using System.Data.SqlClient;
-using Sabio.Data;
-using Sabio.Web.Enums;
+using FoundIt.Data;
+using FoundIt.Web.Enums;
 
-namespace Sabio.Web.Domain
+namespace FoundIt.Web.Domain
 {
     public class ProfileAccountInfo
     {
