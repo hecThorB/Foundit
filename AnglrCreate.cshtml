@@ -1,0 +1,299 @@
+﻿@model Sabio.Web.Models.ViewModels.WelcomeBaseViewModel
+@{
+    //Sabio:
+    Layout = "../Shared/_LayoutConsumer.cshtml";
+}
+
+@section styles {
+    <style type="text/css">
+        /* page styles */
+    </style>
+}
+
+<!-- PAGE TITLE -->
+<section class="module-sm bg-white-dark">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 text-center">
+
+                <h3 class="montserrat text-uppercase m-b-10">Address</h3>
+                <ol class="breadcrumb text-xs">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Breadcrumbs</a></li>
+                    <li class="active">Billing Address</li>
+                </ol>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- END PAGE TITLE -->
+<!-- PAGE -->
+<section class="module divider-bottom">
+    <div class="container">
+
+        <div class="row m-b-70">
+            <div class="col-sm-8 col-sm-offset-2">
+                <h5 class="montserrat text-uppercase bottom-line">Address</h5>
+                <form ng-controller="AddressesController as addressesCtr"
+                      ng-submit="addressesCtr.onAddressesFormSubmit()"
+                      novalidate id="addressesForm" name="addressesCtr.addressesForm">
+                    <div class="form-group col-xs-12">
+                        <label for="addressesLine1">Street Address</label>
+                        <input id="addressesLine1"
+                               class="form-control"
+                               name="addressesLine1"
+                               placeholder="Street Address"
+                               ng-model="addressesCtr.address.addressLine1"
+                               ng-class="{'error': addressesCtr.showAddressesFormErrors && addressesCtr.addressesForm.addressesLine1.$valid}"
+                               required
+                               ng-maxlength="128">
+                        <p class="help-block" ng-show="addressesCtr.showAddressesFormErrors && addressesCtr.form.addressesLine1.$error.required">Please enter your address</p>
+                        <p class="help-block" ng-show="addressesCtr.showAddressesFormErrors && addressesCtr.form.addressesLine1.$error.maxlength">Too many characters!</p>
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <input type="text"
+                               id="addressesLine2"
+                               class="form-control"
+                               name="addressesLine2"
+                               placeholder="Floor, Apartment, Unit, etc."
+                               ng-model="addressesCtr.address.addressLine2"
+                               ng-class="{'error': addressesCtr.showAddressesFormErrors && addressesCtr.addressesForm.addressesLine2.$valid}"
+                               ng-maxlength="128">
+                    </div>
+                    <div class="form-group col-xs-12">
+                        <label for="city">City</label>
+                        <input type="text"
+                               id="city"
+                               class="form-control"
+                               name="city"
+                               placeholder="City"
+                               ng-model="addressesCtr.address.city"
+                               ng-class="{'error': addressesCtr.showAddressesFormErrors && addressesCtr.addressesForm.city.$valid}"
+                               required
+                               ng-maxlength="128">
+                        <p class="error errorMessage" ng-show="addressesCtr.showNewAddressesFormErrors && addressesCtr.form.city.$error.required">Please enter your city</p>
+                    </div>
+
+                        <div class="form-group col-xs-6">
+                            <label for="state">State</label>
+                            <select id="state"
+                                    class="form-control"
+                                    name="stateId"
+                                    ng-options="singleState.id as singleState.name for singleState in addressesCtr.provinces"
+                                    ng-model="addressesCtr.stateId"
+                                    ng-class="{'error': addressesCtr.showAddressesFormErrors && addressesCtr.addressesForm.state.$valid}"
+                                    required>
+                                <option value="">Select State</option>
+                            </select>
+                            <p class="error errorMessage" ng-show="addressesCtr.showNewAddressesFormErrors && addressesCtr.form.state.$error.required">Please select your state</p>
+                        </div>
+                        <div class="form-group col-xs-6">
+                            <label for="postalCode">Postal Code</label>
+                            <input type="text"
+                                   id="postalCode"
+                                   class="form-control"
+                                   name="postalCode"
+                                   placeholder="Postal Code"
+                                   ng-model="addressesCtr.address.postalCode"
+                                   ng-class="{'error': addressesCtr.showAddressesFormErrors && addressesCtr.addressesForm.postalCode.$valid}"
+                                   required
+                                   ng-maxlength="128">
+                            <p class="error errorMessage" ng-show="addressesCtr.showNewAddressesFormErrors && addressesCtr.form.postalCode.$error.required">Please enter your city</p>
+                        </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" id="addressesFormSubmit" class="btn btn-base center-block">{{addressesCtr.submitButton}}</button>
+                    </div>
+                </form>
+            </div>
+        </div><!-- .row -->
+
+    </div>
+</section>
+<!-- END PAGE -->
+
+@section scripts {
+    <!--AJAX Addresses-->
+    <script src="~/Scripts/sabio/services/sabio.services.addresses.js"></script>
+    <!--AJAX StatesAndTerritories-->
+    <script src="~/Scripts/sabio/services/sabio.services.statesAndTerritories.js"></script>
+
+    <!--AddressesId-->
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory("model", model);
+
+            model.$inject = ["$baseService", "$sabio"];
+
+            function model($baseService, $sabio) {
+                var serviceObject = {};
+                serviceObject.addressesId = null;
+
+
+                @if (Model != null)
+                                    {
+                                        <text>
+                serviceObject.addressesId = @Model.EditId;
+                </text>
+                                    }
+
+                var service = $baseService.merge(true, {}, serviceObject, $baseService);
+
+                return service;
+
+            }
+        }());
+    </script>
+
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('AddressesController', AddressesController);
+
+            AddressesController.$inject = ['$scope', '$baseController', 'statesAndTerritoriesService', 'addressesService', 'consumerNotifications', 'model'];
+
+            function AddressesController(
+                $scope
+                , $baseController
+                , statesAndTerritoriesService
+                , addressesService
+                , consumerNotifications
+                , model) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController);
+
+                vm.$scope = $scope;
+
+                vm.statesAndTerritoriesService = statesAndTerritoriesService;
+                vm.statesAndTerritoriesService.names = null;
+                vm.notify = vm.statesAndTerritoriesService.getNotifier($scope); 
+                vm.addressesService = addressesService;
+                vm.consumerNotifications = consumerNotifications;
+                vm.model = model;
+
+                vm.showAddressesFormErrors = false;
+                vm.resetButton = "New Address";
+                vm.submitButton = "Submit";
+                vm.addressesId = vm.model.addressesId;
+                vm.address = {}; 
+                vm.editMode = null;
+
+                vm.onAddressesFormSubmit = _onAddressesFormSubmit;
+                
+                render();
+
+                function render() {
+                    vm.$log.debug("Angular ready");
+                    if (vm.addressesId != null) {
+                        vm.addressesService.getById(vm.addressesId, _onAddressesGetByIdSuccess, _onAddressesGetByIdError);
+                    } else {
+                        stateRender();
+                    }
+                }
+
+                function stateRender (){
+                    sabio.services.statesAndTerritories.getAll(_statesAndTerritoriesGetAllSuccess,_statesAndTerritoriesGetAllError);
+                }
+
+                function _onAddressesFormSubmit() {
+                    vm.showAddressesFormErrors = true;
+
+                    if (vm.addressesForm.$valid) {
+
+                        var address = {};
+                        address = vm.address;
+                        vm.address.stateId = vm.stateId;
+                    
+                        if (vm.addressesId == null) {
+                            vm.addressesService.create(address, _onAddressesCreateSuccess, _onAddressesCreateError);
+                            console.log(vm.address);
+                        } else {
+                            vm.address.id = vm.addressesId;
+                            vm.address.stateId = vm.stateId;
+                            address = vm.address;
+                            vm.addressesService.update(vm.addressesId, address, _onAddressesUpdateSuccess, _onAddressesUpdateError);
+                        }
+                    } else {
+                        vm.consumerNotifications.error("Please fill in all fields?", "Error");
+                    }
+                }
+
+                function _onAddressesCreateError() {
+                    vm.consumerNotifications.error("Failed to submit address", "Error");
+                }
+
+                function _onAddressesCreateSuccess(data) {
+
+                    vm.notify(function () { 
+                        vm.$log.debug(data);
+                        vm.addressesId = data.item;
+                        vm.address.id = data.item;
+
+                        vm.consumerNotifications.success("Address successfully submitted!", "Success");
+                        vm.submitButton = "Update";
+                    });
+                }
+
+                function _onAddressesUpdateError() {
+                    vm.consumerNotifications.error("Failed to update address", "Error");
+                }
+
+                function _onAddressesUpdateSuccess(data) {
+
+                    vm.notify(function () {
+                        vm.consumerNotifications.success("Address successfully updated!", "Success");
+                        vm.showNewAddressesFormErrors = false;
+                    });
+                }
+
+                function _onAddressesGetByIdError() {
+                    vm.consumerNotifications.error("Failed to retrieve address information", "Error");
+                }
+
+                function _onAddressesGetByIdSuccess(data) {
+                    vm.notify(function () {
+                        vm.$log.debug(data);
+                        vm.submitButton = "Update";
+                        vm.resetButton = "Reset";
+                        vm.editMode = "active";
+                        stateRender();
+                        _populateAddressOnForm(data.item);
+                    });
+                }
+
+                function _populateAddressOnForm(address){
+                    vm.address = address; // originalAddress
+                    _displayAddress();
+                }
+
+                function _displayAddress () {
+                    vm.addressesLine1 = vm.address.addressLine1; 
+                    vm.addressesLine2 = vm.address.addressLine2;
+                    vm.city = vm.address.city;
+                    vm.stateId = vm.address.state.id;
+                    vm.postalCode = vm.address.postalCode;
+                }
+
+                function _statesAndTerritoriesGetAllSuccess(data){
+                    vm.notify(function () {
+                        vm.provinces = data.items;
+                    });
+                }
+
+                function _statesAndTerritoriesGetAllError(){
+                    console.log("Get States Error");
+                }
+            }
+        })();
+    </script>
+}
