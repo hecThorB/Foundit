@@ -1,11 +1,11 @@
-﻿using Sabio.Web.Enums;
+﻿using FoundIt.Web.Enums;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Sabio.Web.Models.Requests
+namespace FoundIt.Web.Models.Requests
 {
     public class ProfileMensBudgetsCreateRequest
     {
