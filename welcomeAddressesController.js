@@ -28,8 +28,7 @@
         vm.addressesService = addressesService;
         vm.consumerNotifications = consumerNotifications;
         vm.model = model;
-
-
+            
         //Variables
         vm.showAddressesFormErrors = false;
         vm.resetButton = "New Address";
@@ -45,21 +44,18 @@
 
         function render() {
             vm.$log.debug("Angular ready");
-
             vm.addressesService.getByUserId(_onGetByUserIdSuccess, _onGetByUserIdError);
         }
 
 
         // state Render Function
         function stateRender() {
-            sabio.services.statesAndTerritories.getAll(_statesAndTerritoriesGetAllSuccess, _statesAndTerritoriesGetAllError);
+            foundIt.services.statesAndTerritories.getAll(_statesAndTerritoriesGetAllSuccess, _statesAndTerritoriesGetAllError);
         }
 
         function _onAddressesFormSubmit() {
             vm.showAddressesFormErrors = true;
-
             if (vm.addressesForm.$valid) {
-
                 var address = {};
                 address = vm.address;
                 vm.address.stateId = vm.stateId;
@@ -84,18 +80,12 @@
         }
 
         function _onAddressesCreateSuccess(data) {
-
             vm.notify(function () { // Notify is only used if we're updating the html template
                 vm.$log.debug(data);
                 vm.addressesId = data.item;
                 vm.address.id = data.item;
-
                 vm.consumerNotifications.success("Address successfully submitted!", "Success");
                 vm.submitButton = "Update";
-                //vm.showNewAddressesFormErrors = false;
-
-
-
             });
             vm.addressesService.$window.location.href = "/requests";
         }
@@ -140,7 +130,6 @@
             if (data.item) {
                 _populateAddressOnForm(data.item);
             }
-
 
         }
 
