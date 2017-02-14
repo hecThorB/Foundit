@@ -1,5 +1,5 @@
-﻿@using Sabio.Web.Enums
-@using Sabio.Web.Models.ViewModels;
+﻿@using FoundIt.Web.Enums
+@using FoundIt.Web.Models.ViewModels;
 @model WelcomeBaseViewModel
 
 @{
@@ -151,7 +151,7 @@
 
 @section pageInitScripts{
 
-    <script src="~/Scripts/sabio/sabio.module.angular-slider.js"></script>
+    <script src="~/Scripts/foundIt/foundIt.module.angular-slider.js"></script>
     <script src="~/Scripts/ng/ui-bootstrap-tpls-2.4.0.min.js"></script>
 
 }
@@ -232,29 +232,29 @@
 {
     <!--JS Scripts-->
     <!-----------------------------------------SERVICES------------------------------------------------>
-    <script src="~/Scripts/sabio/services/sabio.services.profileMensBudgets.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileWomensBudgets.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileAccountInfo.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileStyleOptions.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileStyles.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileBasics.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.addresses.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.statesAndTerritories.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileMensBudgets.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileWomensBudgets.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileAccountInfo.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileStyleOptions.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileStyles.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileBasics.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.addresses.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.statesAndTerritories.js"></script>
 
-    <script src="~/Scripts/sabio/profiles/Controllers/welcomeAddressesController.js"></script>
-    <script src="~/Scripts/sabio/profiles/Controllers/welcomeProfileStylesController.js"></script>"
-    <script src="~/Scripts/sabio/profiles/Controllers/welcomeBasicsController.js"></script>
-    <script src="~/Scripts/sabio/profiles/Controllers/welcomeBudgetController.js"></script>
-    <script src="~/Scripts/sabio/profiles/Controllers/welcomeAccountController.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileMensSizes.js"></script>
-    <script src="~/Scripts/sabio/services/sabio.services.profileWomensSizes.js"></script>
-    <script src="~/Scripts/sabio/profiles/Controllers/welcomeSizesController.js"></script>
+    <script src="~/Scripts/foundIt/profiles/Controllers/welcomeAddressesController.js"></script>
+    <script src="~/Scripts/foundIt/profiles/Controllers/welcomeProfileStylesController.js"></script>"
+    <script src="~/Scripts/foundIt/profiles/Controllers/welcomeBasicsController.js"></script>
+    <script src="~/Scripts/foundIt/profiles/Controllers/welcomeBudgetController.js"></script>
+    <script src="~/Scripts/foundIt/profiles/Controllers/welcomeAccountController.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileMensSizes.js"></script>
+    <script src="~/Scripts/foundIt/services/foundIt.services.profileWomensSizes.js"></script>
+    <script src="~/Scripts/foundIt/profiles/Controllers/welcomeSizesController.js"></script>
     <script src="~/Scripts/angular-sliders.js"></script>
     <script src="~/Scripts/ng/ui-bootstrap-tpls-2.4.0.min.js"></script>
     <script src="~/inspinia/js/plugins/fullcalendar/moment.min.js"></script>
 
     <!------------------------------------NOTIFICATIONS---------------------------------------------->
-    <script src="~/Scripts/sabio/services/consumer/sabio.services.consumer.notifications.js"></script>
+    <script src="~/Scripts/foundIt/services/consumer/foundIt.services.consumer.notifications.js"></script>
 
     <script type="text/javascript">
         //route Provider
@@ -265,27 +265,27 @@
                 .config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
 
                     $routeProvider.when('/account', {
-                        templateUrl: '/scripts/sabio/profiles/views/welcomeaccount.html',
+                        templateUrl: '/scripts/foundIt/profiles/views/welcomeaccount.html',
                         controller: 'welcomeAccountController',
                         controllerAs: 'account'
                     }).when('/basics', {
-                        templateUrl: '/scripts/sabio/profiles/views/welcomeBasics.html',
+                        templateUrl: '/scripts/foundIt/profiles/views/welcomeBasics.html',
                         controller: 'welcomeBasicsController',
                         controllerAs: 'basics'
                     }).when('/sizes', {
-                        templateUrl: '/scripts/sabio/profiles/views/allsizes.html',
+                        templateUrl: '/scripts/foundIt/profiles/views/allsizes.html',
                         controller: 'genderWrapper',
                         controllerAs: 'size'
                     }).when('/styles', {
-                        templateUrl: '/scripts/sabio/profiles/views/WelcomeProfileStyles.html',
+                        templateUrl: '/scripts/foundIt/profiles/views/WelcomeProfileStyles.html',
                         controller: 'stylesController',
                         controllerAs: 'styles'
                     }).when('/budget', {
-                        templateUrl: '/scripts/sabio/profiles/views/allbudgets.html',
+                        templateUrl: '/scripts/foundIt/profiles/views/allbudgets.html',
                         controller: 'genderWrapper',
                         controllerAs: 'wrapper'
                     }).when('/address', {
-                        templateUrl: '/scripts/sabio/profiles/views/welcomeaddress.html',
+                        templateUrl: '/scripts/foundIt/profiles/views/welcomeaddress.html',
                         controller: 'AddressesController',
                         controllerAs: 'addressesCtr'
                     });
@@ -395,7 +395,7 @@
 
             angular.module(APPNAME).factory("model", model);
 
-            model.$inject = ["$baseService", "$sabio"];
+            model.$inject = ["$baseService", "$foundIt"];
 
             function model($baseService, $sabio) {
                 var serviceObject = {};
@@ -459,7 +459,7 @@
 
                 function renderGender() {
 
-                    sabio.services.profileAccountInfo.getGender(_onGetGenderSuccess, _onGetGenderError);
+                    foundIt.services.profileAccountInfo.getGender(_onGetGenderSuccess, _onGetGenderError);
                 }
 
                 function _onGetGenderSuccess(data) {
@@ -520,9 +520,9 @@
 
             angular.module(APPNAME).factory("model", model);
 
-            model.$inject = ["$baseService", "$sabio"];
+            model.$inject = ["$baseService", "$foundIt"];
 
-            function model($baseService, $sabio) {
+            function model($baseService, $foundIt) {
                 var serviceObject = {};
                 serviceObject.sizeId = null;
 
@@ -697,7 +697,7 @@
 
             model.$inject = ["$baseService", "$sabio"];
 
-            function model($baseService, $sabio) {
+            function model($baseService, $foundIt) {
                 var serviceObject = {};
                 serviceObject.addressesId = null;
                 @if (Model != null)
