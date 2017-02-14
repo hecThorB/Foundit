@@ -1,4 +1,4 @@
-﻿@model Sabio.Web.Models.ViewModels.WelcomeBaseViewModel
+﻿@model Foundit.Web.Models.ViewModels.WelcomeBaseViewModel
 @{
     //Sabio:
     Layout = "../Shared/_LayoutConsumer.cshtml";
@@ -117,9 +117,9 @@
 
 @section scripts {
     <!--AJAX Addresses-->
-    <script src="~/Scripts/sabio/services/sabio.services.addresses.js"></script>
+    <script src="~/Scripts/foundit/services/Foundit.services.addresses.js"></script>
     <!--AJAX StatesAndTerritories-->
-    <script src="~/Scripts/sabio/services/sabio.services.statesAndTerritories.js"></script>
+    <script src="~/Scripts/foundit/services/Foundit.services.statesAndTerritories.js"></script>
 
     <!--AddressesId-->
     <script type="text/javascript">
@@ -129,9 +129,9 @@
 
             angular.module(APPNAME).factory("model", model);
 
-            model.$inject = ["$baseService", "$sabio"];
+            model.$inject = ["$baseService", "$foundit"];
 
-            function model($baseService, $sabio) {
+            function model($baseService, $foundit) {
                 var serviceObject = {};
                 serviceObject.addressesId = null;
 
@@ -202,7 +202,7 @@
                 }
 
                 function stateRender (){
-                    sabio.services.statesAndTerritories.getAll(_statesAndTerritoriesGetAllSuccess,_statesAndTerritoriesGetAllError);
+                    foundit.services.statesAndTerritories.getAll(_statesAndTerritoriesGetAllSuccess,_statesAndTerritoriesGetAllError);
                 }
 
                 function _onAddressesFormSubmit() {
