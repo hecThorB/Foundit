@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Sabio.Web.Models.Requests
+namespace FoundIt.Web.Models.Requests
 {
     public class ProfileAccountInfoCreateRequest
     {
@@ -15,10 +15,6 @@ namespace Sabio.Web.Models.Requests
         [Required]
         [MaxLength(50)]
         public string LastName { get; set; }
-
-        //[Required]
-        //[MaxLength(128)]
-        //public string Email { get; set; }
 
         [Required]
         [MaxLength(10)]
