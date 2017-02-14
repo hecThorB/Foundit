@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace Sabio.Web.Enums
+namespace FoundIt.Web.Enums
 {
     public enum MensBudgetsActivewearKind
     {
