@@ -1,0 +1,715 @@
+﻿@using Sabio.Web.Enums
+@using Sabio.Web.Models.ViewModels;
+@model WelcomeBaseViewModel
+
+@{
+
+    Layout = "../Shared/_LayoutConsumer.cshtml";
+}
+
+@section styles {
+    <style type="text/css">
+        .full button span {
+            background-color: limegreen;
+            border-radius: 32px;
+            color: black;
+        }
+
+        .partially button span {
+            background-color: orange;
+            border-radius: 32px;
+            color: black;
+        }
+
+        .outerBox {
+            position: relative;
+            width: 180px;
+            height: 200px;
+            display: block;
+        }
+
+        .innerBox {
+            background: black;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity .5s;
+        }
+
+        .innerBoxSelected {
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: .8;
+            color: black;
+            text-align: center;
+            line-height: 197px;
+            border: 2px solid black;
+        }
+
+        .innerBox p {
+            color: white;
+            text-align: center;
+            line-height: 200px;
+        }
+
+        .styleDescription {
+            background: #23B6AC;
+            color: white;
+        }
+
+        .filler {
+            height: 170px;
+        }
+
+        #styleWarning {
+            color: red;
+        }
+
+        #storeIntroWarning {
+            color: red;
+            font-family: montserrat;
+        }
+
+        @@media(max-width:768px) {
+            h5 {
+                text-align: center;
+            }
+        }
+
+        @@media(max-width:991px) {
+            #dropDown {
+                margin-top: 20px;
+            }
+        }
+
+        #styleDesc {
+            color: black;
+            text-align: center;
+        }
+
+        .height {
+            padding: 0px 15px 0px 0px;
+        }
+
+        .custom-slider.rzslider .rz-bar {
+            /*background: #ffe4d1;*/
+            background: #27CBC0;
+            height: 2px;
+        }
+
+        .custom-slider.rzslider .rz-selection {
+            background: orange;
+        }
+
+        .custom-slider.rzslider .rz-pointer {
+            width: 12px;
+            height: 16px;
+            top: auto; /* to remove the default positioning */
+            bottom: 0;
+            background-color: #333;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+            .custom-slider.rzslider .rz-pointer:after {
+                display: none;
+            }
+
+        .custom-slider.rzslider .rz-bubble {
+            bottom: 14px;
+        }
+
+        .custom-slider.rzslider .rz-limit {
+            font-weight: bold;
+            color: orange;
+        }
+
+        .custom-slider.rzslider .rz-tick {
+            width: 3px;
+            height: 10px;
+            margin-left: 4px;
+            border-radius: 0;
+            background: #27CBC0;
+            top: -1px;
+        }
+
+            .custom-slider.rzslider .rz-tick.rz-selected {
+                background: orange;
+            }
+    </style>
+
+    <link href="~/Content/angular-sliders/css/angular-sliders.css" rel="stylesheet" />
+
+}
+
+@section pageInitScripts{
+
+    <script src="~/Scripts/sabio/sabio.module.angular-slider.js"></script>
+    <script src="~/Scripts/ng/ui-bootstrap-tpls-2.4.0.min.js"></script>
+
+}
+
+<script type="text/ng-template" id="/templates/main.html">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body" id="mainControllerElement"
+                     style="background-color:ActiveBorder;">
+                    <h3>This is the Index view.</h3>
+                    <h4>{{splashController.heading}}</h4>
+                    <p>{{splashController.message}}</p>
+                    <p><strong>The cleanest way to implement this behavior is to have a separate controller for each tab</strong>...however it is possible to replicate the behavior with a single controller.</p>
+                    <p>{{splashController.currentRequestLabel}}</p>
+                    <pre>{{splashController.currentRequest}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="/templates/about.html">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body" id="pageControllerElement" style="background-color:ActiveCaption;">
+                    <h3>Code Rules Everything Around Me C.R.E.A.M.</h3>
+                    <h4>{{aboutController.heading}}</h4>
+                    <p>{{aboutController.message}}</p>
+                    <p>{{aboutController.currentRequestLabel}}</p>
+                    <pre>{{aboutController.currentRequest}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="/templates/query.html">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body" id="queryControllerElement" style="background-color:antiquewhite;">
+                    <h3>Query Strings Controller...WTF?!1</h3>
+                    <h4>{{queryController.heading}}</h4>
+                    <p>{{queryController.message}}</p>
+                    <p><strong>Current Request Params:</strong></p>
+                    <pre>{{queryController.currentRequest.params}}</pre>
+                    <p>{{queryController.currentRequestLabel}}</p>
+                    <pre>{{queryController.currentRequest}}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<!-- PAGE TITLE -->
+<section ng-controller="mainController as main" class="module-sm bg-white-dark col-sm-12">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-offset-4">
+                <h3 class="montserrat text-uppercase m-b-10">Found!t Profile</h3>
+            </div>
+            <ul class="nav nav-tabs col-md-6 col-md-offset-3 text-center">
+                <li ng-class="main.tabClass(tab)" ng-repeat="tab in main.tabs">
+                    <a href="{{tab.link}}" ng-click="main.setSelectedTab(tab)">{{tab.label}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container module-sm bg-white-dark" ng-view></div>
+</section>
+<!-- END PAGE TITLE -->
+
+@section scripts
+{
+    <!--JS Scripts-->
+    <!-----------------------------------------SERVICES------------------------------------------------>
+    <script src="~/Scripts/sabio/services/sabio.services.profileMensBudgets.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileWomensBudgets.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileAccountInfo.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileStyleOptions.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileStyles.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileBasics.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.addresses.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.statesAndTerritories.js"></script>
+
+    <script src="~/Scripts/sabio/profiles/Controllers/welcomeAddressesController.js"></script>
+    <script src="~/Scripts/sabio/profiles/Controllers/welcomeProfileStylesController.js"></script>"
+    <script src="~/Scripts/sabio/profiles/Controllers/welcomeBasicsController.js"></script>
+    <script src="~/Scripts/sabio/profiles/Controllers/welcomeBudgetController.js"></script>
+    <script src="~/Scripts/sabio/profiles/Controllers/welcomeAccountController.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileMensSizes.js"></script>
+    <script src="~/Scripts/sabio/services/sabio.services.profileWomensSizes.js"></script>
+    <script src="~/Scripts/sabio/profiles/Controllers/welcomeSizesController.js"></script>
+    <script src="~/Scripts/angular-sliders.js"></script>
+    <script src="~/Scripts/ng/ui-bootstrap-tpls-2.4.0.min.js"></script>
+    <script src="~/inspinia/js/plugins/fullcalendar/moment.min.js"></script>
+
+    <!------------------------------------NOTIFICATIONS---------------------------------------------->
+    <script src="~/Scripts/sabio/services/consumer/sabio.services.consumer.notifications.js"></script>
+
+    <script type="text/javascript">
+        //route Provider
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .config(["$routeProvider", "$locationProvider", function ($routeProvider, $locationProvider) {
+
+                    $routeProvider.when('/account', {
+                        templateUrl: '/scripts/sabio/profiles/views/welcomeaccount.html',
+                        controller: 'welcomeAccountController',
+                        controllerAs: 'account'
+                    }).when('/basics', {
+                        templateUrl: '/scripts/sabio/profiles/views/welcomeBasics.html',
+                        controller: 'welcomeBasicsController',
+                        controllerAs: 'basics'
+                    }).when('/sizes', {
+                        templateUrl: '/scripts/sabio/profiles/views/allsizes.html',
+                        controller: 'genderWrapper',
+                        controllerAs: 'size'
+                    }).when('/styles', {
+                        templateUrl: '/scripts/sabio/profiles/views/WelcomeProfileStyles.html',
+                        controller: 'stylesController',
+                        controllerAs: 'styles'
+                    }).when('/budget', {
+                        templateUrl: '/scripts/sabio/profiles/views/allbudgets.html',
+                        controller: 'genderWrapper',
+                        controllerAs: 'wrapper'
+                    }).when('/address', {
+                        templateUrl: '/scripts/sabio/profiles/views/welcomeaddress.html',
+                        controller: 'AddressesController',
+                        controllerAs: 'addressesCtr'
+                    });
+
+                    $locationProvider.html5Mode(false);
+
+                }]);
+
+        })();
+
+        // MainController
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('mainController', MainController);
+
+            MainController.$inject = ['$scope', '$baseController'];
+
+            function MainController(
+                $scope
+                , $baseController) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController);
+
+                vm.$scope = $scope;
+                vm.myMessage = "I am in the main controller";
+                vm.currentRequestLabel = "Current Request:";
+
+                vm.tabs = [
+                  { link: '#/account', label: 'Account' },
+                  { link: '#/basics', label: 'Basics' },
+                  { link: '#/sizes', label: 'Sizes' },
+                  { link: '#/styles', label: 'Styles' },
+                  { link: '#/budget', label: 'Budget' },
+                  { link: '#/address', label: 'Address'}
+                ];
+
+                vm.selectedTab = vm.tabs[0];
+
+                vm.tabClass = _tabClass;
+                vm.setSelectedTab = _setSelectedTab;
+
+                render();
+
+                function render() {
+                    vm.setUpCurrentRequest(vm);
+
+                    switch (vm.currentRequest.originalPath) {
+                        case "/account":
+                            vm.heading = "Account";
+                            vm.message = "This text is coming from the main controller also but it's changing because of the new route. It's the same controller but it loads a different template into ng-view.";
+                            break;
+
+                        case "/basics":
+                            vm.heading = "Basics";
+                            vm.message = "Basic stuff here. Notice how Angular captures all of these params in a variable which you can access as $route.current.params.";
+                            break;
+
+                        case "/sizes":
+                            vm.heading = "Sizes";
+                            vm.message = "Hello! welcome to the routes demo. I am the main controller and this is the main page.";
+                            break;
+
+                        case "/style":
+                            vm.heading = "Style";
+                            vm.message = "Hello! welcome to the routes demo. I am the main controller and this is the main page.";
+                            break;
+
+                        case "/budget":
+                            vm.heading = "Budget";
+                            vm.message = "Hello! welcome to the routes demo. I am the main controller and this is the main page.";
+                            break;
+
+                        case "/address":
+                            vm.heading = "Address";
+                            vm.message = "Hello! welcome to the routes demo. I am the main controller and this is the main page.";
+                            break;
+                    }
+                }
+
+                function _tabClass(tab) {
+                    if (vm.selectedTab == tab) {
+                        return "active";
+                    } else {
+                        return "";
+                    }
+                }
+
+                function _setSelectedTab(tab) {
+                    console.log("set selected tab", tab);
+                    vm.selectedTab = tab;
+                }
+
+            }
+        })();
+    </script>
+
+
+    <!--BudgetId-->
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory("model", model);
+
+            model.$inject = ["$baseService", "$sabio"];
+
+            function model($baseService, $sabio) {
+                var serviceObject = {};
+                serviceObject.budgetId = null;
+
+
+                @if (Model != null)
+                {
+                    <text>
+                serviceObject.budgetId = @Model.EditId;
+                </text>
+                }
+
+                var service = $baseService.merge(true, {}, serviceObject, $baseService);
+
+                return service;
+
+            }
+        }());
+    </script>
+
+    <!--wrapper controller for entire page-->
+    <script type="text/javascript">
+        (function(){
+            // Wrapper Controller for the entire page
+            angular.module(APPNAME).controller('genderWrapper', GenderWrapper);
+
+            GenderWrapper.$inject = ['$scope', '$baseController', 'consumerNotifications', 'profileAccountInfoService'];
+
+            function GenderWrapper(
+                $scope
+                , $baseController
+                , consumerNotifications
+                , profileAccountInfoService) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController); 
+
+                vm.$scope = $scope;
+
+                // Services
+                vm.profileAccountInfoService = profileAccountInfoService;
+                vm.notify = vm.profileAccountInfoService.getNotifier($scope); 
+                vm.consumerNotifications = consumerNotifications;
+
+                //variables
+                vm.data = {}; 
+                vm.gender = null;
+
+                vm.showSelectMsg = false;
+                vm.isMale = false;
+                vm.isFemale = false;
+
+                render(); 
+
+                function render() {
+                    vm.setUpCurrentRequest(vm);
+                    renderGender()
+                }
+
+                function renderGender() {
+
+                    sabio.services.profileAccountInfo.getGender(_onGetGenderSuccess, _onGetGenderError);
+                }
+
+                function _onGetGenderSuccess(data) {
+                    vm.notify(function(){
+                        vm.gender = data.item.gender;
+                        vm.$log.debug("Gender _onGetGenderSuccess " + vm.gender);
+                        if(vm.gender === 0)
+                        {
+                            vm.isMale = false;
+                            vm.isFemale = false;
+                            vm.showSelectMsg = true;
+                        }
+                        else if(vm.gender == 1){
+                            vm.isMale = true;
+                            vm.isFemale = !vm.isMale;
+                        }
+                        else
+                        {
+                            vm.isMale = false;
+                            vm.isFemale = !vm.isMale;
+                        }
+                    });
+
+                }
+
+                function _onGetGenderError() {
+                    console.log("Page rendered wrong gender budget");
+                }
+
+            }
+        }());
+    </script>
+
+    <!--ProfileBasicsEnums-->
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory('basicsEnumService', basicsEnumService);
+
+            basicsEnumService.$inject = ['$baseService'];
+
+            function basicsEnumService($baseService) {
+                var basicsEnumsObject = {
+                    situationKindEnum: @typeof(SituationKind).EnumToJson(1),
+                    bodyShapeKindEnum: @typeof(BodyShapeKind).EnumToJson(1) };
+                var service = $baseService.merge(true, {}, basicsEnumsObject, $baseService);
+                return service;
+            }
+        })();
+    </script>
+
+    <!--ProfileBasicsEnums-->
+    <!--SizeId-->
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory("model", model);
+
+            model.$inject = ["$baseService", "$sabio"];
+
+            function model($baseService, $sabio) {
+                var serviceObject = {};
+                serviceObject.sizeId = null;
+
+                @if (Model != null)
+                 {
+                    <text>
+                serviceObject.sizeId = @Model.EditId;
+                </text>
+                 }
+
+                var service = $baseService.merge(true, {}, serviceObject, $baseService);
+
+                return service;
+
+            }
+        }());
+    </script>
+
+    <!--Men's Sizes EnumService-->
+    <script type="text/javascript">
+        (function() {
+            "use strict";
+
+            angular.module(APPNAME).factory('mensSizesEnums', mensSizesEnums);
+
+            mensSizesEnums.$inject = ['$baseService'];
+
+            function mensSizesEnums($baseService) {
+
+                var menSizeEnumsObject = {
+
+                    mensShirtSizeKind : @typeof(MensShirtSizeKind).EnumToJson(1),
+                    mensWaistSizeKind : @typeof(MensWaistSizeKind).EnumToJson(1),
+                    mensInseamKind : @typeof(MensInseamKind).EnumToJson(1),
+                    mensShirtFitKind : @typeof(MensShirtFitKind).EnumToJson(1),
+                    mensPantFitKind : @typeof(MensPantFitKind).EnumToJson(1),
+                    mensShoeSizeKind : @typeof(MensShoeSizeKind).EnumToJson(1),
+                }
+
+
+                var service = $baseService.merge(true, {}, menSizeEnumsObject, $baseService);
+                return service;
+            }
+        })();
+    </script>
+
+    <!--Women's Sizes EnumService-->
+    <script type="text/javascript">
+
+        (function() {
+            "use strict";
+
+            angular.module(APPNAME).factory('womensSizesEnums', womensSizesEnums);
+
+            womensSizesEnums.$inject = ['$baseService'];
+
+            function womensSizesEnums($baseService) {
+                var WomensSizeEnumsObject = {
+
+                    dressSizeNKinds: @typeof(WomensDressSizeNumericalKind).EnumToJson(1),
+                    dressSizeAKinds: @typeof(WomensDressSizeAlphaKind).EnumToJson(1),
+                    blouseSizeNKinds: @typeof(WomensBlouseSizeNumericalKind).EnumToJson(1),
+                    blouseSizeAKinds: @typeof(WomensBlouseSizeAlphaKind).EnumToJson(1),
+                    braSizeBandKinds: @typeof(WomensBraSizeBandKind).EnumToJson(1),
+                    braSizeCupKinds: @typeof(WomensBraSizeCupKind).EnumToJson(1),
+                    pantsSizeKinds: @typeof(WomensPantsSizeKind).EnumToJson(1),
+                    jeanWaistKinds: @typeof(WomensJeanWaistKind).EnumToJson(1),
+                    skirtSizeKinds: @typeof(WomensSkirtSizeKind).EnumToJson(1),
+                    shoeSizeKinds: @typeof(WomensShoeSizeKind).EnumToJson(1),
+                };
+
+                var service = $baseService.merge(true, {}, WomensSizeEnumsObject, $baseService);
+                return service;
+            }
+        })();
+    </script>
+
+    <!--EnumService WOMENS BUDGETS-->
+    <script type="text/javascript">
+        //Enum Service
+
+        (function() {
+            "use strict";
+
+            angular.module(APPNAME).factory('mensBudgetEnums', mensBudgetEnums);
+
+            mensBudgetEnums.$inject = ['$baseService'];
+
+            function mensBudgetEnums($baseService) {
+                var enumsObject = {
+                    accessoriesKindEnum: @typeof(MensBudgetsAccessoriesKind).EnumToJson(1),
+                    suitsKindEnum: @typeof(MensBudgetsSuitsKind).EnumToJson(1),
+                    outerwearKindEnum: @typeof(MensBudgetsOuterwearKind).EnumToJson(1),
+                    shirtsKindEnum: @typeof(MensBudgetsShirtsKind).EnumToJson(1),
+                    sweatersKindEnum: @typeof(MensBudgetsSweatersKind).EnumToJson(1),
+                    activewearKindEnum: @typeof(MensBudgetsActivewearKind).EnumToJson(1),
+                    swimwearKindEnum: @typeof(MensBudgetsSwimwearKind).EnumToJson(1),
+                    shortsKindEnum: @typeof(MensBudgetsShortsKind).EnumToJson(1),
+                    bagsKindEnum: @typeof(MensBudgetsBagsKind).EnumToJson(1),
+                    pantsKindEnum: @typeof(MensBudgetsPantsKind).EnumToJson(1),
+                    tiesKindEnum: @typeof(MensBudgetsTiesKind).EnumToJson(1),
+                    shoesKindEnum: @typeof(MensBudgetsShoesKind).EnumToJson(1),
+                    firstMensFindKindEnumm: @typeof(MensBudgetsFirstFindKind).EnumToJson(1) };
+
+                var service = $baseService.merge(true, {}, enumsObject, $baseService);
+                return service;
+            }
+        })();
+    </script>
+
+    <!--EnumsService MENS BUDGETS-->
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory("womensBudgetEnums", womensBudgetEnums);
+
+            womensBudgetEnums.$inject = ['$baseService'];
+
+            function womensBudgetEnums ($baseService) {
+                var enumsObject = {
+                    accessoriesKindEnum: @typeof(ProfileWomensBudgetsAccessoriesKind).EnumToJson(1),
+                    topsKindEnum: @typeof(ProfileWomensBudgetsTopsKind).EnumToJson(1),
+                    outerwearKindEnum: @typeof(ProfileWomensBudgetsOuterwearKind).EnumToJson(1),
+                    dressesKindEnum: @typeof(ProfileWomensBudgetsDressesKind).EnumToJson(1),
+                    sweatersKindEnum: @typeof(ProfileWomensBudgetsSweatersKind).EnumToJson(1),
+                    activewearKindEnum: @typeof(ProfileWomensBudgetsActivewearKind).EnumToJson(1),
+                    jacketsKindEnum: @typeof(ProfileWomensBudgetsJacketsKind).EnumToJson(1),
+                    shortsKindEnum: @typeof(ProfileWomensBudgetsShortsKind).EnumToJson(1),
+                    shoesKindEnum: @typeof(ProfileWomensBudgetsShoesKind).EnumToJson(1),
+                    pantsKindEnum: @typeof(ProfileWomensBudgetsPantsKind).EnumToJson(1),
+                    jewelryKindEnum: @typeof(ProfileWomensBudgetsJewelryKind).EnumToJson(1),
+                    skirtsKindEnum: @typeof(ProfileWomensBudgetsSkirtsKind).EnumToJson(1),
+                    suitsKindEnum: @typeof(ProfileWomensBudgetsSuitsKind).EnumToJson(1),
+                    swimwearKindEnum: @typeof(ProfileWomensBudgetsSwimwearKind).EnumToJson(1),
+                    bagsKindEnum: @typeof(ProfileWomensBudgetsBagsKind).EnumToJson(1),
+                    maternityKindEnum: @typeof(ProfileWomensBudgetsMaternityKind).EnumToJson(1),
+                    firstFindKindEnum: @typeof(ProfileWomensBudgetsFirstFindKind).EnumToJson(1) };
+
+                var service = $baseService.merge(true, {}, enumsObject, $baseService);
+                return service;
+            }
+        })();
+    </script>
+
+    <!-- Store Intro Enums-->
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory("storeIntroEnums", storeIntroEnums);
+
+            storeIntroEnums.$inject = ['$baseService'];
+
+            function storeIntroEnums($baseService) {
+                var enumsObject = {
+                    storeEnum: @typeof(StoreIntroFrequencyKind).EnumToJson(1)
+                    }
+                var service= $baseService.merge(true, {}, enumsObject, $baseService);
+                return service;
+            }
+        })();
+    </script>
+
+    <!-- Addresses Id-->
+    <script type="text/javascript">
+
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME).factory("model", model);
+
+            model.$inject = ["$baseService", "$sabio"];
+
+            function model($baseService, $sabio) {
+                var serviceObject = {};
+                serviceObject.addressesId = null;
+                @if (Model != null)
+                                    {
+                                        <text>
+                serviceObject.addressesId = @Model.EditId;
+                </text>
+                                    }
+                var service = $baseService.merge(true, {}, serviceObject, $baseService);
+                return service;
+            }
+        }());
+    </script>
+
+}

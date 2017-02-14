@@ -1,0 +1,24 @@
+﻿<section class="module divider-bottom">
+    <div class="container">
+        <div class="row m-b-70">
+            <div class="col-sm-6 col-sm-offset-3">
+                <h5 class="montserrat text-uppercase bottom-line">Your Budget</h5>
+
+                <div ng-if="wrapper.showSelectMsg">
+
+                    You must provide us with some <a href="/profiles/#/account">
+                        basic information
+                    </a> before selecting a budget.
+
+                </div>
+
+                <!-- The template for the enums go in here -->
+                <div ng-include="'/scripts/sabio/profiles/views/men/budgets.html'" ng-if="wrapper.isMale"></div>
+                <!--The template for the enums godi in here-->
+                <div ng-include="'/scripts/sabio/profiles/views/women/budgets.html'" ng-if="wrapper.isFemale"></div>
+                <!-- The template for the enums go in here -->
+            </div>
+        </div>
+        <!--WHAT DO YOU WANT IN YOUR FIRST F!ND?-->
+    </div><!-- .row -->
+</section>

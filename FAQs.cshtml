@@ -1,0 +1,121 @@
+﻿@using Sabio.Web.Enums
+
+@{
+    ViewBag.Title = "Found!It";
+    Layout = "../Shared/_LayoutConsumer.cshtml";
+}
+
+
+@section styles {
+    <style type="text/css">
+        /* page styles */
+    </style>
+}
+<!-- WRAPPER -->
+<div class="wrapper">
+    <!-- PAGE TITLE -->
+    <section class="module-sm bg-white-dark">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-center">
+                    <h3 class="montserrat text-uppercase m-b-10">FAQ</h3>
+                    <ol class="breadcrumb">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/faqs">FAQ</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END PAGE TITLE -->
+    <!-- FAQ -->
+    <section class="module-sm" ng-controller="questionsController as faqsCtr">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2" id="qCtrler">
+                    <!-- ACCORDION -->                    
+                    <div >
+                        <uib-accordion close-others="oneAtATime">
+                            <div uib-accordion-group class="panel-default" heading="Question: {{faq.question}}" ng-repeat="faq in faqsCtr.faqs">
+                                Answer: {{faq.answer}}
+                            </div>
+
+                        </uib-accordion>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END FAQ -->
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+        </div>
+    </footer>
+    <!-- END FOOTER -->
+</div>
+<!-- /WRAPPER -->
+<!-- JAVASCRIPT FILES -->
+@section scripts {
+    <script src="/Scripts/sabio/services/sabio.services.faqs.js"></script>
+    <script type="text/javascript">
+        (function () {
+            "use strict";
+
+            angular.module(APPNAME)
+                .controller('questionsController', QuestionsController);
+
+            QuestionsController.$inject = ['$scope', '$baseController', "faqsService"];
+
+            function QuestionsController(
+              $scope
+              , $baseController
+              , faqsService
+              ) {
+
+                var vm = this;
+
+                $baseController.merge(vm, $baseController);
+                vm.$scope = $scope;
+                vm.oneAtATime = true;
+
+                // Services
+                vm.faqsService = faqsService;
+                vm.notify = vm.faqsService.getNotifier($scope);
+
+                vm.status = {
+                    isCustomHeaderOpen: false,
+                    isFirstOpen: true,
+                    isFirstDisabled: false
+                };
+
+                // Variables
+                vm.id = null;
+                vm.items = null;
+                vm.faqs = {};
+
+                render();
+
+                // Render
+                function render() {
+                    vm.$log.debug("Angular Ready");
+                    vm.faqsService.get(_onGetSuccess, _onGetError);
+                }
+
+                // Handlers
+                function _onGetSuccess(data) {
+                    console.log("On get Success!")
+                    console.log(data.items);
+                    vm.notify(function () {
+                        vm.faqs = data.items;
+                    });
+                }
+
+                function _onGetError (){
+                    console.log("On get Error!")
+                }
+            }
+        })();
+    </script>
+}

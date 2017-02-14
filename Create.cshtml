@@ -1,0 +1,316 @@
+﻿@using Sabio.Web.Enums
+@using Sabio.Web.Models.ViewModels;
+@model WelcomeBaseViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "../Shared/_LayoutConsumer.cshtml";
+}
+
+@section styles {
+    <style type="text/css">
+    </style>
+}
+
+<!-- PAGE TITLE -->
+<section class="module-sm bg-white-dark">
+    <div class="container">
+
+        <div class="row">
+            <div class="col-sm-12 text-center">
+
+                <h3 class="montserrat text-uppercase m-b-10">Page Title</h3>
+                <ol class="breadcrumb text-xs">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Breadcrumbs</a></li>
+                    <li class="active">Page Title</li>
+                </ol>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- END PAGE TITLE -->
+<!-- PAGE -->
+<section class="module">
+    <div class="container">
+
+        <div class="row">
+
+            <!-- FORMS -->
+            <section class="module bg-black-alfa-70 color-white parallax" data-background="assets/images/module-3.jpg">
+                <div class="container">
+
+                    <div class="row m-b-70">
+                        <div class="col-sm-8 col-sm-offset-2">
+                            <h5 class="montserrat text-uppercase bottom-line">Profile Account Information</h5>
+                            <form id="profileForm" class="form-horizontal">
+
+                                <div class="form-group">
+                                    <label for="firstName" class="col-sm-2 control-label">Name</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="firstName" class="form-control form-transparent" id="inputFirstName" placeholder="First Name">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName" class="col-sm-2 control-label"></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" name="lastName" class="form-control form-transparent" id="inputLastName" placeholder="Last Name">
+                                    </div>
+                                </div>
+                                <div class="form-group genderRadio">
+                                    <label for="inputGender" class="col-sm-2 control-label">Gender</label>
+                                    <div class="col-sm-8 gender">
+                                        <div name="genderRadio" id="genderRadio">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail" class="col-sm-2 control-label">Email</label>
+                                    <div class="col-sm-10">
+                                        <input type="email" name="email" class="form-control form-transparent" id="inputEmail" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPhoneNumber" class="col-sm-2 control-label">Phone Number</label>
+                                    <div class="col-sm-10">
+                                        <input type="tel" name="phoneNumber" class="form-control form-transparent" id="inputPhoneNumber" placeholder="(xxx)xxx-xxxx">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputBirthday" class="col-sm-2 control-label">Date of Birth</label>
+                                    <div class="col-sm-10">
+                                        <input type="date" name="birthday" class="form-control form-transparent" id="inputBirthday" placeholder="Month/Day/Year">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button type="button" class="btn btn-base" id="signInButton"><span id="signUpBtn">Create Profile</span></button>
+                                        <button type="button" class="btn btn-base" id="resetForm"><span id="resetBtn">Reset Form</span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- .row -->
+
+                </div>
+            </section>
+            <!-- END FORMS -->
+
+
+        </div><!-- .row -->
+
+    </div>
+</section>
+
+<!-- END PAGE -->
+
+@section scripts {
+    <script src="~/Scripts/sabio/services/sabio.services.profileAccountInfo.js"></script>
+    <script type="text/javascript">
+        sabio.page.genderKinds = @typeof(GenderKind).EnumToJson(1);
+        sabio.page.accountId = null;
+        // ---------------------- Page Scripts --------------------------
+
+        @if (Model != null) {
+            if (@Model.IsWelcomeMode)
+            {
+                <text>
+                    sabio.page.welcomeMode = true;
+                </text>
+            }
+            else
+            {
+                <text>
+                    sabio.page.accountId = @Model.EditId;
+                </text>
+            }
+        }
+        sabio.page.accountInfoData = null;
+
+        sabio.page.startUp = function () {
+            $("#signInButton").on("click", sabio.page.submitProfileAccountInfo);
+
+            $("#resetForm").on("click", sabio.page.resetForm);
+
+            sabio.page.initializeValidation();
+
+            sabio.page.initializeGenders();
+
+            if(sabio.page.accountId !== null){
+                sabio.services.profileAccountInfo.getById(sabio.page.accountId,sabio.page.handlers.getAjaxSuccess,sabio.page.handlers.getAjaxError);
+                sabio.page.changeButtonsForEditPage();
+            }
+        };
+
+        sabio.page.handlers.postAjaxSuccess = function (responseData) {
+            if (sabio.page.welcomeMode) {
+                window.location = "basics";
+            } else {
+                sabio.page.accountId = responseData.item;
+                alert("Your Profile Information has submitted!");
+                console.log("Post Success!!");
+            }
+        };
+
+        sabio.page.handlers.postAjaxError = function (responseData) {
+            console.log(responseData);
+        };
+
+        sabio.page.handlers.putAjaxSuccess = function (responseData) {
+            alert("Thank you for updating your Profile Information!");
+            console.log("Put Success!!");
+        };
+
+        sabio.page.handlers.getAjaxError = function (responseData) {
+            console.log(responseData);
+        };
+
+        sabio.page.handlers.getAjaxSuccess = function (responseData) {
+            sabio.page.accountInfoData = responseData.item;
+            sabio.page.populateForm(sabio.page.accountInfoData)
+            console.log("Get Succes");
+            console.log(responseData.item);
+        };
+
+        sabio.page.handlers.getAjaxError = function (responseData) {
+            console.log(responseData);
+        };
+
+        sabio.page.initializeGenders = function (){
+            $gender = $("#genderRadio");
+            for(var key in sabio.page.genderKinds){
+                var $radioButton = $("<input class='radio-gender' type='radio' name='gender'/><span>Text</span><br />")
+                var currentGender = sabio.page.genderKinds[key];
+                $radioButton.attr("value", currentGender.value);
+                $radioButton.text(currentGender.displayName);
+                $gender.append($radioButton);
+            }
+        };
+
+        sabio.page.initializeValidation = function () {
+            $("#profileForm").validate(
+                    {
+                        rules:
+                        {
+                            "firstName":
+                    {
+                        required: true
+                    },
+                            "lastName":
+                            {
+                                required: true
+                            },
+                            "gender":
+                            {
+                                required: true,
+                            },
+                            "email":
+                            {
+                                required: true
+                            },
+                            "phoneNumber":
+                            {
+                                required: true
+                            },
+                            "birthday":
+                            {
+                                required: true
+                            },
+                        },
+                        messages:
+                                {
+                                    "firstName":
+                            {
+                                required: "Please enter your first name."
+                            },
+                                    "lastName":
+                                    {
+                                        required: "Please enter your last name."
+                                    },
+                                    "email":
+                                    {
+                                        required: "Please enter your email."
+                                    },
+                                    "phoneNumber":
+                                    {
+                                        required: "Please enter your phone number."
+                                    },
+                                    "birthday":
+                                    {
+                                        required: "Please enter your birthday."
+                                    },
+                                }
+                    });
+        };
+
+        sabio.page.submitProfileAccountInfo = function (e) {
+            e.preventDefault();
+            if (sabio.page.accountId == null) {
+                if ($("#profileForm").valid()) {
+                    var formInfo = {};
+                    formInfo.firstName = $("#inputFirstName").val();
+                    formInfo.lastName = $("#inputLastName").val();
+                    formInfo.gender = $(".radio-gender:checked").val();
+                    formInfo.email = $("#inputEmail").val();
+                    formInfo.phoneNumber = $("#inputPhoneNumber").val();
+                    formInfo.dateofBirth = $("#inputBirthday").val();
+                    console.log(formInfo);
+                    console.log("validate function passed.");
+                    sabio.services.profileAccountInfo.insert(formInfo, sabio.page.handlers.postAjaxSuccess, sabio.page.handlers.postAjaxError);
+                } else {
+                    console.log("did not pass validate function.");
+                }
+            } else {
+                var formInfo = {};
+                formInfo.Id = sabio.page.accountId;
+                formInfo.firstName = $("#inputFirstName").val();
+                formInfo.lastName = $("#inputLastName").val();
+                formInfo.gender = $(".radio-gender:checked").val();
+                formInfo.email = $("#inputEmail").val();
+                formInfo.phoneNumber = $("#inputPhoneNumber").val();
+                formInfo.dateofBirth = $("#inputBirthday").val();
+                console.log(formInfo);
+                sabio.services.profileAccountInfo.update(sabio.page.accountId, formInfo, sabio.page.handlers.putAjaxSuccess, sabio.page.handlers.putAjaxError);
+            }
+        };
+
+        sabio.page.populateForm = function(obj){
+
+            $("#profileForm").find("#inputFirstName").val(obj.firstName);
+            $("#profileForm").find("#inputLastName").val(obj.lastName);
+            $("#profileForm").find("#genderRadio").val(obj.gender);
+            $("#profileForm").find("#inputEmail").val(obj.email);
+            $("#profileForm").find("#inputPhoneNumber").val(obj.phoneNumber);
+            var dateOfBirth = obj.dateOfBirth;
+            var birthday = "";
+            for (var i = 0; i < dateOfBirth.length -9; i++) {
+                birthday += dateOfBirth[i];
+            }
+            $("#profileForm").find("#inputBirthday").val(birthday);
+            if(obj.gender == 1){
+                $("input[name=gender][value='1']").prop('checked', true);
+            }else if(obj.gender == 2){
+                $("input[name=gender][value='2']").prop('checked', true);
+            }
+
+
+        };
+
+        sabio.page.changeButtonsForEditPage = function(){
+            $("#signUpBtn").text("SUBMIT EDIT");
+            $("#resetBtn").text("UNDO CHANGE");
+        };
+
+        sabio.page.resetForm = function () {
+            if(sabio.page.accountInfoData !== null){
+                sabio.page.populateForm(sabio.page.accountInfoData);
+            } else{
+                sabio.page.accountId = null;
+                $("#profileForm").get(0).reset();
+                alert("The Form has been reset. Information submitted now will create a new profile.");
+            }
+        };
+
+    </script>
+}

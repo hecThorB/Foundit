@@ -1,0 +1,161 @@
+﻿<form ng-controller="MensBudgetController as mBudget" ng-submit="mBudget.onBudgetFormSubmit()" name="mBudget.budgetForm" novalidate>
+    <!--YOUR BUDGET-->
+    <div class="form-group">
+        <label for="accessoriesType">Accessories</label>
+        <select class="form-control"
+                id="accessoriesBudget"
+                name="accessoriesBudget"
+                ng-model="mBudget.data.accessoriesType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.accessoriesDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.accessoriesBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.accessoriesBudget.$error.required">Please select your budget for accessories</p>
+    </div>
+    <div class="form-group">
+        <label for="topsType">Suits</label>
+        <select class="form-control"
+                id="topsBudget"
+                name="topsBudget"
+                ng-model="mBudget.data.suitsType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.suitsDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.suitsBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.suitsBudget.$error.required">Please select your budget for suits</p>
+    </div>
+    <div class="form-group">
+        <label for="outerwearType">Outerwear</label>
+        <select class="form-control"
+                id="outerwearBudget"
+                name="outerwearBudget"
+                ng-model="mBudget.data.outerwearType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.outerwearDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.outerwearBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.outerwearBudget.$error.required">Please select your budget for outerwear</p>
+    </div>
+    <div class="form-group">
+        <label for="dressesType">Shirts</label>
+        <select class="form-control"
+                id="dressesBudget"
+                name="dressesBudget"
+                ng-model="mBudget.data.shirtsType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.shirtsDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shirtsBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shirtsBudget.$error.required">Please select your budget for shirts</p>
+    </div>
+    <div class="form-group">
+        <label for="sweatersType">Sweaters</label>
+        <select class="form-control"
+                id="sweatersBudget"
+                name="sweatersBudget"
+                ng-model="mBudget.data.sweatersType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.sweatersDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.sweatersBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.sweatersBudget.$error.required">Please select your budget for sweaters</p>
+    </div>
+    <div class="form-group">
+        <label for="activewearType">Activewear</label>
+        <select class="form-control"
+                id="activewearBudget"
+                name="activewearBudget"
+                ng-model="mBudget.data.activewearType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.activewearDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.activewearBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.activewearBudget.$error.required">Please select your budget for activewear</p>
+    </div>
+    <div class="form-group">
+        <label for="jacketsType">Swimwear</label>
+        <select class="form-control"
+                id="jacketsBudget"
+                name="jacketsBudget"
+                ng-model="mBudget.data.swimwearType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.swimwearDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.jacketsBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.swimwearBudget.$error.required">Please select your budget for swimwear</p>
+    </div>
+    <div class="form-group">
+        <label for="shortsType">Shorts</label>
+        <select class="form-control"
+                id="shortsBudget"
+                name="shortsBudget"
+                ng-model="mBudget.data.shortsType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.shortsDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shortsBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shortsBudget.$error.required">Please select your budget for shorts</p>
+    </div>
+    <div class="form-group">
+        <label for="shoesType">Bags</label>
+        <select class="form-control"
+                id="shoesBudget"
+                name="shoesBudget"
+                ng-model="mBudget.data.bagsType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.bagsDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shoesBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.bagsBudget.$error.required">Please select your budget for bags</p>
+    </div>
+    <div class="form-group">
+        <label for="pantsType">Pants</label>
+        <select class="form-control"
+                id="pantsBudget"
+                name="pantsBudget"
+                ng-model="mBudget.data.pantsType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.pantsDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.pantsBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.pantsBudget.$error.required">Please select your budget for pants</p>
+    </div>
+    <div class="form-group">
+        <label for="jewelryType">Ties</label>
+        <select class="form-control"
+                id="jewelryBudget"
+                name="jewelryBudget"
+                ng-model="mBudget.data.tiesType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.tiesDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.tiesBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.tiesBudget.$error.required">Please select your budget for ties</p>
+    </div>
+    <div class="form-group">
+        <label for="skirtsType">Shoes</label>
+        <select class="form-control"
+                id="skirtsBudget"
+                name="skirtsBudget"
+                ng-model="mBudget.data.shoesType"
+                ng-options="enumData.value as enumData.displayName for (enumName, enumData) in mBudget.shoesDropDown"
+                ng-class="{'error': mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shoesBudget.$invalid}"
+                required>
+            <option value="">Select your budget</option>
+        </select>
+        <p class="error errorMessage" ng-show="mBudget.showNewBudgetFormErrors && mBudget.budgetForm.shoesBudget.$error.required">Please select your budget for shoes</p>
+    </div>
+    <button type="button" ng-click="mBudget.onBudgetFormReset()" class="btn btn-base">{{mBudget.resetButton}}</button>
+    <button type="submit" class="btn btn-base pull-right">{{mBudget.submitButton}}</button>
+</form>
